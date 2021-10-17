@@ -1,0 +1,3 @@
+[submodule "sample-web/sample-web"]
+	path = sample-web/sample-web
+	url = https://github.com/kgfathur/sample-web.git
