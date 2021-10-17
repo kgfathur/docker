@@ -13,7 +13,7 @@ services:
       - db_user=${DB_USER}
       - db_password=${DB_PASSWORD}
     volumes: 
-      - ./web:/var/www/html
+      - ./sample-web:/var/www/html
     ports:
       - 80:80
     network_mode: "host"
