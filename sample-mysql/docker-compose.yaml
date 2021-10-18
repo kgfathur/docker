@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db1:
+    image: mysql:5.7
+    container_name: db1
+    environment:
+      - HOSTNAME=db1
+      - node_id='db1'
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes: 
+      - ./sample-db:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306
+    network_mode: "host"
