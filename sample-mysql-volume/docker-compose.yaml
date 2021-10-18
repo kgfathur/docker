@@ -13,8 +13,8 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes: 
       - dbdata:/var/lib/mysql
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     network_mode: "host"
 
 volumes:
