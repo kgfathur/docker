@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  db1:
+    image: kgfathur/sample-mysql:1.0
+    container_name: db1
+    environment:
+      - HOSTNAME=db1
+      - node_id='db1'
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes: 
+      - dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    network_mode: "host"
+
+volumes:
+  dbdata:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data
+      o: bind
