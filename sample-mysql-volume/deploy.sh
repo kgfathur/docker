@@ -1,6 +1,8 @@
 #!/bin/bash
 
+mkdir ./dbdata
 docker-compose -f docker-compose.yaml up -d
+
 echo ""
 sleep 5
 
