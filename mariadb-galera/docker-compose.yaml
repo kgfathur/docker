@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # debug1:
+  #   image: quay.io/kgfathur/rhubi:8.3
+  #   command: ping -i 60 127.0.0.1
+  #   networks:
+  #     internal:
+  #       ipv4_address: 10.10.100.10
+
+  mariadb1:
+    user: "1002:0"
+    container_name: mariadb1
+    domainname: mariadb1
+    image: bitnami/mariadb-galera:10.3.28
+    volumes:
+      - mariadb1:/bitnami/mariadb
+      - ./password:/password
+    environment:
+      - MARIADB_GALERA_CLUSTER_NAME=galera
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://mariadb2:4567,mariadb1:4567
+      - MARIADB_GALERA_MARIABACKUP_USER=backup_user
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD_FILE=/password/backup
+      - MARIADB_ROOT_PASSWORD_FILE=/password/root
+      - MARIADB_USER=admin
+      - MARIADB_PASSWORD_FILE=/password/admin
+      - MARIADB_REPLICATION_USER=replica_user
+      - MARIADB_REPLICATION_PASSWORD_FILE=/password/replica
+    # mac_address:
+    networks:
+      internal:
+        ipv4_address: 10.10.100.11
+
+  mariadb2:
+    user: "1002:0"
+    container_name: mariadb2
+    domainname: mariadb2
+    image: bitnami/mariadb-galera:10.3.28
+    volumes:
+      - mariadb2:/bitnami/mariadb
+      - ./password:/password
+    environment:
+      - MARIADB_GALERA_CLUSTER_NAME=galera
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://mariadb1:4567,mariadb2:4567
+      - MARIADB_GALERA_MARIABACKUP_USER=backup_user
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD_FILE=/password/backup
+      - MARIADB_ROOT_PASSWORD_FILE=/password/root
+      - MARIADB_USER=admin
+      - MARIADB_PASSWORD_FILE=/password/admin
+      - MARIADB_REPLICATION_USER=replica_user
+      - MARIADB_REPLICATION_PASSWORD_FILE=/password/replica
+    networks:
+      internal:
+        ipv4_address: 10.10.100.12
+
+networks:
+  internal:
+    external: true
+
+volumes:
+  mariadb1:
+    driver: local
+    driver_opts:
+      type: none
+      device: /data/mariadb1
+      o: bind
+  mariadb2:
+    driver: local
+    driver_opts:
+      type: none
+      device: /data/mariadb2
+      o: bind
