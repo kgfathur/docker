@@ -1,10 +1,5 @@
 #!/bin/bash
 
-docker-compose -f docker-compose.yaml up -d
-echo ""
-sleep 5
-
-
 if [[ -f ./.env ]]; then
   echo "Using environment: .env"
   source .env
@@ -12,6 +7,11 @@ else
   echo "Environment file '.env' not exist!"
   echo "Using environment: '.env.sample'"
 fi
+
+docker-compose -f docker-compose.yaml up -d
+echo ""
+sleep 5
+
 waiting="True"
 running="False"
 initialize="False"
