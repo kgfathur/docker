@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  psql-1:
+    #user: "1002:0"
+    image: postgres:13.7
+    container_name: psql-1
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgresdb
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+        mode: host
+    volumes:
+      - datapsql-1:/var/lib/postgresql/data
+    networks:
+      - network-1
+    deploy:
+      # placement:
+      #   constraints: [ node.hostname == docker1.domain.local ]
+      # endpoint_mode: dnsrr
+      mode: "replicated"
+      replicas: 1
+
+networks:
+  network-1:
+    external: false
+    name: network-1
+
+volumes:
+  datapsql-1:
+    name: datapsql-1
+    driver: local
+    driver_opts:
+      type: none
+      device: /data/psql-1
+      o: bind
