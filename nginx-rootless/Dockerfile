@@ -1,8 +1,8 @@
 FROM nginx:1.22
 
 LABEL maintainer="kgfathur" \
-      name="nginx-certbot" \
-      description="NGINX image with certbot installed"
+      name="nginx-rootless" \
+      description="NGINX image with rootless priviledge"
 
 COPY ./src /src
 
