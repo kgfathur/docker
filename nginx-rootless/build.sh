@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t nginx:1.22-rootless .
+docker build -t nginx-rootless:1.22 .

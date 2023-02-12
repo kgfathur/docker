@@ -1,5 +1,7 @@
 #!/bin/bash
 
-docker build -t nginx:1.22-rootless .
-docker tag nginx:1.22-rootless registry.domain.lab/stream/nginx:1.22-rootless
-docker push registry.domain.lab/stream/nginx:1.22-rootless
+docker build -t nginx-rootless:1.22 .
+docker tag nginx-rootless:1.22 registry.domain.lab/stream/nginx-rootless:1.22
+docker push registry.domain.lab/stream/nginx-rootless:1.22
+docker tag nginx-rootless:1.22 registry.domain.lab/kgfathur/nginx-rootless:1.22
+docker push registry.domain.lab/kgfathur/nginx-rootless:1.22

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx-certbot:
-    image: nginx:1.22-rootless
+    image: nginx-rootless:1.22
     container_name: nginx-rootless
     environment:
       - HOSTNAME=nginx-rootless
