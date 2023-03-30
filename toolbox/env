@@ -1,0 +1,10 @@
+BASE_REPO=docker.io
+BASE_IMAGE=alpine
+BASE_TAG=3.17
+BUILD_REPO=registry.i-3.my.id:5500
+BUILD_NS=kgfathur
+BUILD_IMAGE=toolbox
+BUILD_TAG=1.0-alpine
+BUILD_LATEST=True
+PUSH_IMAGE=True
+PUSH_REPOS=registry.i-3.my.id:5000,registry.i-3.my.id:5500
