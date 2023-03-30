@@ -12,8 +12,8 @@ cp -vrf /src/entrypoint.d /
 echo "Add User & Group"
 addgroup -g $APP_GID $APP_USER
 
-adduser \
-  -G $APP_GID \
+adduser -D \
+  -G alpine \
   -u $APP_UID \
   -h /home/$APP_USER \
   -s /bin/sh \
