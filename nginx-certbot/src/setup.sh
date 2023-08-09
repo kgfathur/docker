@@ -13,7 +13,7 @@ apt-get autoremove --yes
 # rm -vrf /var/lib/{apt,dpkg,cache,log}/
 # rm -rf /var/lib/apt/lists/*
 rm -vrf /var/lib/apt
-rm -vrf /var/log/{apt,dpkg.log}
+rm -vrf /var/log/{apt,*.log}
 
 echo "Add User & Group"
 addgroup --gid $APP_GID $APP_USER

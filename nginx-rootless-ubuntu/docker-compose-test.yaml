@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  nginx-certbot:
+    image: nginx-rootless:1.22-ubuntu20.04
+    container_name: nginx-rootless
+    environment:
+      - HOSTNAME=nginx-rootless
+    ports:
+      - 80:80
+    network_mode: "host"
+    # networks:
+    #   - elastic
+    healthcheck:
+      test: curl -s http://localhost >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 10s
+      timeout: 5s
+      retries: 5
