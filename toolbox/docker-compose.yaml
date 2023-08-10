@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  toolbox:
+    build: .
+    image: ${BUILD_REPO}/${BUILD_NS}/${BUILD_IMAGE}:BUILD_TAG
+    container_name: toolbox
+    environment:
+      - HOSTNAME=toolbox
+    network_mode: "host"
+    healthcheck:
+      test: sh
+      interval: 10s
+      timeout: 5s
+      retries: 5
