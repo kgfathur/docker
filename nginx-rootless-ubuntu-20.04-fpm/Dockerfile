@@ -1,12 +1,12 @@
-FROM ubuntu:jammy
+FROM ubuntu:focal
 
 ENV NAME=nginx \
   NGINX_VERSION=1.22 \
-  PHP_VERSION=8.1 \
+  PHP_VERSION=7.4 \
   OS_NAME=ubuntu \
-  OS_VERSION=22.04 \
-  OS_CODENAME=jammy \
-  OS_FULLNAME='Jammy Jellyfish'
+  OS_VERSION=20.04 \
+  OS_CODENAME=focal \
+  OS_FULLNAME='Focal Fossa'
 
 ENV SUMMARY="NGINX $NGINX_VERSION image with rootless priviledge based on ${OS_NAME} ${OS_VERSION} (${OS_FULLNAME}})" \
   DESCRIPTION="NGINX is a web server and a reverse proxy server for HTTP, SMTP, POP3 and IMAP \

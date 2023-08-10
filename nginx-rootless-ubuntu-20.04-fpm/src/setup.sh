@@ -43,8 +43,8 @@ apt-get install -y --no-install-recommends nginx=${NGINX_VERSION}*
 DEBIAN_FRONTEND=noninteractive TZ=Asia/Jakarta apt-get install -y --no-install-recommends tzdata
 echo "Asia/Jakarta" | tee /etc/timezone
 
-apt-get install -y --no-install-recommends php8.1-fpm
-update-alternatives --install /usr/bin/php-fpm php-fpm /usr/sbin/php-fpm8.1 0
+apt-get install -y --no-install-recommends php7.4-fpm
+update-alternatives --install /usr/bin/php-fpm php-fpm /usr/sbin/php-fpm7.4 0
 
 apt-get clean autoclean
 apt-get autoremove --yes

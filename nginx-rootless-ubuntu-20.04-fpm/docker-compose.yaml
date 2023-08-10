@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nginx:
     build: .
-    image: nginx-rootless:1.22-ubuntu22.04
+    image: nginx-rootless:1.22-ubuntu20.04-fpm
     container_name: nginx-rootless
     environment:
       - HOSTNAME=nginx-rootless
