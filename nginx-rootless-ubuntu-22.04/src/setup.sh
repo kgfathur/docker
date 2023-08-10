@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 APP_GID=1000
 APP_UID=1000
@@ -6,7 +7,13 @@ APP_USER=nginx
 OS_CODENAME=$(grep -Po 'VERSION_CODENAME=\K\w+' /etc/os-release)
 
 echo "Pre-setup file and dir..."
-mkdir -vp /entrypoint.d/ /usr/share/nginx/html
+set +e
+mkdir -vp /entrypoint.d/ \
+          /usr/share/nginx/html \
+          /var/run/nginx \
+          /tmp/nginx
+
+set -e
 cp -vrf /src/entrypoint.sh /entrypoint.sh
 cp -vrf /src/entrypoint.d /
 
@@ -38,17 +45,11 @@ http://nginx.org/packages/ubuntu ${OS_CODENAME} nginx" \
   | tee /etc/apt/sources.list.d/nginx.list
 
 apt-get update
-# dnf install nginx certbot -y
 apt-get install -y --no-install-recommends nginx=${NGINX_VERSION}*
-
 
 apt-get clean autoclean
 apt-get autoremove --yes
-# rm -vrf /var/lib/{apt,dpkg,cache,log}/
-# rm -rf /var/lib/apt/lists/*
-# rm -vrf /var/lib/{apt,dpkg,cache,log}/
-# mkdir -vp /var/lib/{apt,dpkg}
-# touch /var/lib/dpkg/status
+
 rm -vrf /var/lib/{apt,cache,log}/
 rm -vrf /var/log/{apt,*.log}
 
@@ -56,11 +57,9 @@ ln -vsf /dev/stdout /var/log/nginx/access.log
 ln -vsf /dev/stderr /var/log/nginx/error.log
 
 echo "Prepare file and dir"
-# rm -vrf /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
-mkdir -vp /var/run/nginx /tmp/nginx
-cp -vrf /src/index.html /usr/share/nginx/html/index.html
 cp -vrf /src/nginx.conf /etc/nginx/nginx.conf
-cp -vrf /src/default.conf /etc/nginx/conf.d/default.conf
+cp -vrf /src/nginx.conf.d/* /etc/nginx/conf.d/
+cp -vrf /src/web/* /usr/share/nginx/html/
 
 chown -vR $APP_UID:0 /etc/nginx
 chmod -vR g+w /etc/nginx
@@ -75,7 +74,8 @@ chmod -vR g+w /var/run/nginx
 chown -vR $APP_UID:0 /usr/share/nginx
 chmod -vR g+w /etc/nginx
 
-chown -vR $APP_UID:0 /entrypoint.d
-chmod -vR 750 /entrypoint.d/{*.sh,*.envsh} || echo -n
 chown -vR $APP_UID:0 /entrypoint.sh
 chmod -vR 750 /entrypoint.sh
+chown -vR $APP_UID:0 /entrypoint.d
+set +e
+chmod -vR 750 /entrypoint.d/{*.sh,*.envsh} || echo -n

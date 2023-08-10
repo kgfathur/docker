@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 APP_GID=1000
 APP_UID=1000
@@ -6,7 +7,15 @@ APP_USER=nginx
 OS_CODENAME=$(grep -Po 'VERSION_CODENAME=\K\w+' /etc/os-release)
 
 echo "Pre-setup file and dir..."
-mkdir -vp /entrypoint.d/ /usr/share/nginx/html
+set +e
+mkdir -vp /entrypoint.d/ \
+          /usr/share/nginx/html \
+          /var/run/nginx \
+          /tmp/nginx \
+          /run/php \
+          /var/log/php
+
+set -e
 cp -vrf /src/entrypoint.sh /entrypoint.sh
 cp -vrf /src/entrypoint.d /
 
@@ -43,8 +52,8 @@ apt-get install -y --no-install-recommends nginx=${NGINX_VERSION}*
 DEBIAN_FRONTEND=noninteractive TZ=Asia/Jakarta apt-get install -y --no-install-recommends tzdata
 echo "Asia/Jakarta" | tee /etc/timezone
 
-apt-get install -y --no-install-recommends php7.4-fpm
-update-alternatives --install /usr/bin/php-fpm php-fpm /usr/sbin/php-fpm7.4 0
+apt-get install -y --no-install-recommends php${PHP_VERSION}-fpm
+update-alternatives --install /usr/bin/php-fpm php-fpm /usr/sbin/php-fpm${PHP_VERSION} 0
 
 apt-get clean autoclean
 apt-get autoremove --yes
@@ -56,13 +65,11 @@ ln -vsf /dev/stdout /var/log/nginx/access.log
 ln -vsf /dev/stderr /var/log/nginx/error.log
 
 echo "Prepare file and dir"
-mkdir -vp /var/run/nginx /tmp/nginx
-cp -vrf /src/index.html /usr/share/nginx/html/index.html
-cp -vrf /src/index.php /usr/share/nginx/html/index.php
 cp -vrf /src/nginx.conf /etc/nginx/nginx.conf
-cp -vrf /src/default.conf /etc/nginx/conf.d/default.conf
+cp -vrf /src/nginx.conf.d/* /etc/nginx/conf.d/
+cp -vrf /src/web/* /usr/share/nginx/html/
 
-cp -vrf /src/zzz-docker.conf /etc/php/8.1/fpm/pool.d/zzz-docker.conf
+cp -vrf /src/php.pool.d/zzz-docker.conf /etc/php/${PHP_VERSION}/fpm/pool.d/
 
 chown -vR $APP_UID:0 /etc/nginx
 chmod -vR g+w /etc/nginx
@@ -77,9 +84,6 @@ chmod -vR g+w /var/run/nginx
 chown -vR $APP_UID:0 /usr/share/nginx
 chmod -vR g+w /etc/nginx
 
-mkdir -v /run/php
-mkdir -v /var/log/php
-
 chown -vR $APP_UID:0 /etc/php
 chown -vR $APP_UID:0 /run/php
 chown -vR $APP_UID:0 /var/log/php
@@ -88,7 +92,8 @@ chmod -vR g+w /etc/php
 chmod -vR g+w /run/php
 chmod -vR g+w /var/log/php
 
-chown -vR $APP_UID:0 /entrypoint.d
-chmod -vR 750 /entrypoint.d/{*.sh,*.envsh} || echo -n
 chown -vR $APP_UID:0 /entrypoint.sh
 chmod -vR 750 /entrypoint.sh
+chown -vR $APP_UID:0 /entrypoint.d
+set +e
+chmod -vR 750 /entrypoint.d/{*.sh,*.envsh} || echo -n
