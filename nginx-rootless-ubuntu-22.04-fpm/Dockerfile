@@ -31,6 +31,10 @@ RUN chmod +x /src/setup.sh \
   && bash /src/setup.sh \
   && rm -vrf /src
 
+COPY --chown=nginx:root ./tmp/zzz-docker.conf /etc/php/${PHP_VERSION}/fpm/pool.d/
+RUN touch /run/php/php-fpm.sock \
+  && chown -v 1000:0 /run/php/php-fpm.sock
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 STOPSIGNAL SIGQUIT

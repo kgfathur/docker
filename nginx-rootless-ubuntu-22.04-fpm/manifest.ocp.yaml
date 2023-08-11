@@ -12,6 +12,7 @@ spec:
       image: quay.io/kgfathur/nginx-rootless:1.22-ubuntu22.04-fpm
       ports:
         - containerPort: 8080
+      imagePullPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,6 +38,7 @@ spec:
         image: quay.io/kgfathur/nginx-rootless:1.22-ubuntu22.04-fpm
         ports:
           - containerPort: 8080
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service

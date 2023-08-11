@@ -44,7 +44,9 @@ if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
     fi
 fi
 
+echo "$(date +'%Y-%m-%d %H:%M:%S.%3N') | Running: exec at@"
 exec "$@"
+echo "$(date +'%Y-%m-%d %H:%M:%S.%3N') | Finish: exec at@"
 ##!/bin/bash
 
 # echo "doing nothing"

@@ -19,4 +19,6 @@ ls -lh /var/run/nginx
 echo -e "\n## --> /usr/share/nginx"
 ls -lh /usr/share/nginx
 
+echo "$(date +'%Y-%m-%d %H:%M:%S.%3N') | Running: php-fpm -D"
 php-fpm -D
+echo "$(date +'%Y-%m-%d %H:%M:%S.%3N') | After: php-fpm -D"
