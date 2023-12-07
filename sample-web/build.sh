@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t sample-web:1.0 .
+docker build -t sample-web:2.1 .
